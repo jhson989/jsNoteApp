@@ -1,1 +1,1 @@
-# JavaScript Everywhere API
+# JavaScript Everywhere API!
