@@ -1,51 +1,54 @@
-// temporary data
-let notes = [
-    { id:'0', content:'오늘은 출근을 했다.', author:'Janghyun'},
-    { id:'1', content:'오늘은 운동을 했다.', author:'Yehna'},
-    { id:'2', content:'오늘은 요리를 했다.', author:'Mandoo'},
-];
-
 const express = require('express');
 const { ApolloServer, gql} = require('apollo-server-express');
+require('dotenv').config();
 
+const db = require('./db');
+const models = require('./models');
+
+// Configuration
 const port = process.env.PORT || 4000;
+const DB_HOST = process.env.DB_HOST;
 
+
+// Schema
 const typeDefs = gql`
     type Note {
         id: ID!
-        content: String!
-        author: String!
+        content: String
+        author: String
     }
     type Query {
-        notes: [Note!]
-        note(id: ID!): Note!
+        notes: [Note]
+        note(id: ID): Note
     }
     type Mutation {
-        newNote(content: String!): Note!
+        newNote(content: String!): Note
     }
 `;
 
 const resolvers = {
     Query: {
-        notes: () => notes,
-        note: (parent, args) => {
-            return notes.find(note=>note.id === args.id);
+        notes: async() => {
+            return await models.Note.find();
+        },
+        note: async (parent, args) => {
+            return models.Note.findById(args.id);
         }
     },
     Mutation: {
-        newNote: (parent, args) => {
-            let note = {
-                id: String(notes.length),
+        newNote: async (parent, args) => {
+            return await models.Note.create({
                 content: args.content,
-                author: ''
-            }
-            notes.push(note);
-            return note;
+                author: "abc"
+            })
         }
     }
 }
 
+
+// App running
 const app = express();
+db.connect(DB_HOST);
 
 let server = null;
 async function startServer() {
@@ -61,5 +64,5 @@ async function startServer() {
 
 startServer();
 app.listen( { port }, () => 
-    console.log('GraphQL Server running on http://localhost:${port}${server.graphqlPath}')
+    console.log('GraphQL Server running on http://localhost:'+port+server.graphqlPath)
 );
