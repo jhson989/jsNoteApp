@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 // Data schema
+
 const db = require('./db');
 const models = require('./models');
 const typeDefs = require('./schema');
