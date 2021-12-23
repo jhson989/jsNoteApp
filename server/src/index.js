@@ -22,9 +22,7 @@ db.connect(DB_HOST);
 const getUser = (token) => {
     if (token) {
         try {
-            console.log(token);
-            console.log(process.env.JWT_SECRET);
-            return jwt.verity(token, process.env.JWT_SECRET);
+            return jwt.verify(token, process.env.JWT_SECRET);
         } catch(err) {
             throw new Error('Session invalid');
         }

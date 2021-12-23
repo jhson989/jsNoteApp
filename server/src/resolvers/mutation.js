@@ -50,7 +50,6 @@ module.exports = {
                 avatar,
                 password: hashed
             });
-            console.log(process.env.JWT_SECRET);
             return jwt.sign({id:user._id}, process.env.JWT_SECRET);
         } catch (err) {
             console.log(err);
@@ -83,7 +82,6 @@ module.exports = {
             throw new AuthenticationError('Error signing in');
         }
 
-        console.log(process.env.JWT_SECRET);
         return jwt.sign({id:user._id}, process.env.JWT_SECRET);
     },
 }
