@@ -22,20 +22,19 @@ db.connect(DB_HOST);
 const getUser = (token) => {
     if (token) {
         try {
-            return jwt.verity(token, process.env.JWT_SECRET);
+            return jwt.verify(token, process.env.JWT_SECRET);
         } catch(err) {
             throw new Error('Session invalid');
         }
     }
 }
-
 let server = null;
 async function startServer() {
     server = new ApolloServer({
         typeDefs,
         resolvers,
         context: ({req}) => {
-            const token = req.headers.Authorization;
+            const token = req.headers.authorization;
             const user = getUser(token);
             return {models, user};
         },
