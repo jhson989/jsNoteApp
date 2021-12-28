@@ -20,5 +20,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-*/.parcel_cache
+.parcel-cache
+*/.parcel-cache
 */dist
+*/*cache*
