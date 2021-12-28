@@ -1,9 +1,13 @@
 import React from 'react';
 
+import Header from '../components/Header';
+import Navigation from '../components/Navigation';
+
 const Home = () => {
     return (
         <div>
-            <h1>jsNoteApp</h1>
+            <Header />
+            <Navigation />
             <p>This is the home page</p>
         </div>
     )
